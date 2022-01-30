@@ -37,8 +37,38 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
+const SPASE = "**********";
+
 function decode(expr) {
-    // write your solution here
+    const codesArray = expr.match(/.{1,10}/g);
+    return codesArray.map(code => convertToCharacter(code)).join("");
+}
+
+function convertToCharacter(encryptedCharacter) {
+    if (SPASE === encryptedCharacter) {
+        return " ";
+    }
+    const key = convertToMorseCode(encryptedCharacter);
+    return convertToCharacterFromMorseTable(key);
+}
+
+function convertToMorseCode(encryptedSymbol) {
+    const encryptedSymbolArray = encryptedSymbol.match(/.{1,2}/g);
+    return encryptedSymbolArray.map(encryptedSymbol => convertToMorseCodeSymbol(encryptedSymbol)).join("");
+}
+
+function convertToMorseCodeSymbol(encryptedSymbol) {
+    if (encryptedSymbol === "10") {
+        return ".";
+    }
+    if (encryptedSymbol === "11") {
+        return "-";
+    }
+    return "";
+}
+
+function convertToCharacterFromMorseTable(morseCode) {
+    return MORSE_TABLE[morseCode];
 }
 
 module.exports = {
